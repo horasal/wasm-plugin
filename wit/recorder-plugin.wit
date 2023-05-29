@@ -1,0 +1,42 @@
+interface recorder-plugin-exports {
+    record error {
+        description: string,
+        recommended-action: option<action>,
+    }
+
+    record action {
+        module-name: string,
+        function: string,
+        description: option<string>,
+    }
+
+    variant match-result {
+        live-stream,
+        video,
+        uncertain,
+    }
+
+    record version {
+        major: u32,
+        minor: u32,
+        build: u32,
+    }
+    
+    type map = list<tuple<string, string>>
+
+    record plugin-info {
+        name: string,
+        author: option<string>,
+        description: option<string>,
+        version: option<version>,
+        arguments: option<map>
+    }
+
+    get-info: func() -> plugin-info
+    set-argument: func(self: borrow<recorder-plugin>, config: map)
+    match-url: func(url: string) -> result<match-result,error>
+}
+
+default world recorder-plugin {
+    export recorder-plugin: self.recorder-plugin-exports
+}

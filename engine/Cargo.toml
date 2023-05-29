@@ -1,0 +1,15 @@
+[package]
+name = "Engine"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.71"
+colored = { version = "2.0.0", features = ["no-color"] }
+fern = "0.6.2"
+humantime = "2.1.0"
+log = "0.4.17"
+structopt = "0.3.26"
+wasmtime = {git = "https://github.com/bytecodealliance/wasmtime", features = ["async","cache", "cranelift", "parallel-compilation", "pooling-allocator", "vtune", "wat","component-model"] }
