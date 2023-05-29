@@ -10,3 +10,8 @@ the [WIT](https://github.com/bytecodealliance/wit-bindgen) IDL can be used to de
 What you need to do is just write a `.wit` file and implement the traits generated from `wit`, compiler will do all the remaining dirty works.
 
 This repo contains some sample codes to show how to use WIT to write a plugin.
+
+# How to Compile
+
+* Make sure you install `wasm32-unknown-unknown` target.
+* Run `make`
