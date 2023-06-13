@@ -15,10 +15,7 @@ impl RecorderPlugin for DummyPlugin {
 
     }
 
-    fn set_argument(&self, config: Vec<(String, String)>) {
-
-    }
-    fn match_url(&self, url: String) -> Result<MatchResult, Error>{
+    fn match_url(url: String) -> Result<MatchResult, Error>{
         log::trace!("url: {}", url);
         return Ok(MatchResult::Video);
     }

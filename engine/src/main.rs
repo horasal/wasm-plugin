@@ -1,6 +1,7 @@
 use wasmtime::component::*;
 use wasmtime::{Config, Engine, Store};
 use anyhow::{Result, bail};
+use std::borrow::Borrow;
 use std::default;
 use std::path::Path;
 use std::str::FromStr;
@@ -140,14 +141,30 @@ impl Default for App {
     }
 }
 
+struct Server<T> {
+    pm: PluginManager<T>,
+}
+
+impl<T: Default> Server<T> {
+    fn new() -> Result<Self> {
+        let mut pm = PluginManager::<T>::new()?;
+        let plugin_dir = std::env::current_dir().unwrap_or(std::path::PathBuf::from_str(".")?);
+        //plugin_dir.push("plugins");
+        log::info!("load plugins.");
+        pm.load_plugins(plugin_dir)?;
+        log::info!("{} plugins loaded.", pm.plugin_count());
+        if pm.plugin_count() < 1 { bail!("no plugin exists") }
+        Ok(Server {
+            pm: pm,
+        })
+    }
+}
+
+
 fn main() -> wasmtime::Result<()> {
     setup_logger()?;
     let args = Args::from_args();
-    let mut pm = PluginManager::<App>::new()?;
-    log::info!("load plugins.");
-    pm.load_plugins(".")?;
-    log::info!("{} plugins loaded.", pm.plugin_count());
-    if pm.plugin_count() < 1 { bail!("no plugin, exit.") }
+    let server = Server::<App>::new();
     Ok(())
 }
 

@@ -33,7 +33,6 @@ interface recorder-plugin-exports {
     }
 
     get-info: func() -> plugin-info
-    set-argument: func(self: borrow<recorder-plugin>, config: map)
     match-url: func(url: string) -> result<match-result,error>
 }
 
